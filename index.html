@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiztos - Educational Assessments</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS (CDN for quick Vercel Deployment) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#7c3aed', // Quiztos Purple
+                        primaryHover: '#6d28d9',
+                        bgLight: '#fcfcfd'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #c4b5fd; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
+
+        /* Toggle Switch CSS */
+        .toggle-checkbox:checked { right: 0; border-color: #7c3aed; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #7c3aed; }
+        .toggle-checkbox { right: 4px; z-index: 1; border-color: #e5e7eb; transition: all 0.3s; }
+        .toggle-label { background-color: #e5e7eb; transition: all 0.3s; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-purple-200 selection:text-primary">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white border-b border-gray-100 fixed w-full top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="bg-primary text-white p-2 rounded-lg leading-none font-bold text-xl">Q</div>
+                <span class="font-extrabold text-2xl text-primary tracking-tight">quiztos</span>
+            </div>
+            
+            <div class="hidden md:flex items-center bg-gray-50 rounded-full px-4 py-2 border border-gray-200 w-96">
+                <i class="fa-solid fa-search text-gray-400 text-sm"></i>
+                <input type="text" placeholder="Search by course name or topic..." class="bg-transparent border-none outline-none ml-3 w-full text-sm placeholder-gray-400">
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="text-gray-500 hover:text-primary transition"><i class="fa-regular fa-moon text-xl"></i></button>
+                <button onclick="openModal()" class="bg-primary hover:bg-primaryHover text-white font-medium px-5 py-2 rounded-full transition shadow-md shadow-purple-200 text-sm">
+                    Create Assessment
+                </button>
+                <div class="h-8 w-8 rounded-full bg-purple-100 border border-purple-200 flex items-center justify-center text-primary font-bold cursor-pointer">
+                    <i class="fa-regular fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="pt-32 pb-16 px-4 text-center max-w-3xl mx-auto">
+        <h1 class="text-5xl font-extrabold text-gray-900 tracking-tight leading-tight mb-4">
+            Frictionless, <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-400">Assessments</span>
+        </h1>
+        <p class="text-gray-500 text-lg mb-8 leading-relaxed">
+            Create, share, and evaluate educational quizzes instantly. Built on Edge infrastructure for lightning-fast performance and seamless participant access.
+        </p>
+        <button class="bg-primary hover:bg-primaryHover text-white font-semibold px-8 py-3 rounded-full transition shadow-lg shadow-purple-200">
+            Browse Assessments &rarr;
+        </button>
+    </main>
+
+    <!-- Recent Quizzes Grid -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+        <div class="flex justify-between items-end mb-6 border-b border-gray-200 pb-2">
+            <h2 class="text-xl font-bold text-gray-800">Browse Recent Quizzes</h2>
+            <a href="#" class="text-primary text-sm font-medium hover:underline">View All &rarr;</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Quiz Card 1 -->
+            <div class="bg-white border border-gray-200 rounded-xl p-5 flex items-center gap-4 hover:shadow-md transition cursor-pointer group">
+                <div class="w-12 h-12 rounded-lg bg-primary flex items-center justify-center text-white font-bold group-hover:scale-105 transition">CS</div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-gray-900">CS101</h3>
+                    <p class="text-xs text-gray-500">Introduction to Computing • 26 Quizzes</p>
+                </div>
+                <i class="fa-solid fa-chevron-down text-gray-400 text-sm"></i>
+            </div>
+            
+            <!-- Quiz Card 2 -->
+            <div class="bg-white border border-gray-200 rounded-xl p-5 flex items-center gap-4 hover:shadow-md transition cursor-pointer group">
+                <div class="w-12 h-12 rounded-lg bg-purple-500 flex items-center justify-center text-white font-bold group-hover:scale-105 transition">DS</div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-gray-900">CS301</h3>
+                    <p class="text-xs text-gray-500">Data Structures • 15 Quizzes</p>
+                </div>
+                <i class="fa-solid fa-chevron-down text-gray-400 text-sm"></i>
+            </div>
+
+            <!-- Quiz Card 3 -->
+            <div class="bg-white border border-gray-200 rounded-xl p-5 flex items-center gap-4 hover:shadow-md transition cursor-pointer group">
+                <div class="w-12 h-12 rounded-lg bg-purple-700 flex items-center justify-center text-white font-bold group-hover:scale-105 transition">SE</div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-gray-900">CS504</h3>
+                    <p class="text-xs text-gray-500">Software Engineering • 13 Quizzes</p>
+                </div>
+                <i class="fa-solid fa-chevron-down text-gray-400 text-sm"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Assessment Modal (Hidden by Default) -->
+    <div id="createModal" class="fixed inset-0 bg-gray-900 bg-opacity-40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300" id="modalContent">
+            
+            <!-- Modal Header -->
+            <div class="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex justify-between items-center z-10">
+                <div class="flex items-center gap-2">
+                    <span class="font-extrabold text-xl text-primary tracking-tight">quiztos</span>
+                    <span class="bg-purple-100 text-primary text-[10px] font-bold px-2 py-0.5 rounded ml-2">PRO</span>
+                </div>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-700 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-6">
+                <!-- User Info -->
+                <div class="border border-gray-200 rounded-xl p-4 flex justify-between items-center bg-gray-50">
+                    <div>
+                        <p class="text-sm font-semibold text-gray-800">Signed in as admin@quiztos.com</p>
+                        <p class="text-xs text-gray-500">You can now create assessments.</p>
+                    </div>
+                    <button class="text-xs font-medium text-gray-500 hover:text-gray-800 border border-gray-300 px-3 py-1 rounded bg-white">Sign out</button>
+                </div>
+
+                <!-- Inputs -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Course Name</label>
+                        <input type="text" placeholder="e.g. CS101" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Quiz Title</label>
+                        <input type="text" placeholder="e.g. Midterm 1" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition">
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide">Quiz Description</label>
+                        <span class="text-xs text-primary cursor-pointer hover:underline">Reset to Default</span>
+                    </div>
+                    <textarea rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition bg-purple-50 text-gray-700 border-purple-100">Welcome to this Quiztos assessment. This quiz runs in **Study Mode**, providing you with immediate evaluation and correct answers for each question to maximize learning.</textarea>
+                    <p class="text-[11px] text-gray-400 mt-1">This message is shown to participants on the quiz landing page.</p>
+                </div>
+
+                <!-- AI Prompt Box -->
+                <div class="border border-purple-100 rounded-xl bg-white overflow-hidden shadow-sm">
+                    <div class="bg-purple-50 px-4 py-3 flex justify-between items-center border-b border-purple-100">
+                        <div class="text-sm font-semibold text-primary flex items-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> AI-Assisted Generation
+                        </div>
+                        <span class="text-xs text-primary font-medium cursor-pointer hover:underline">Hide Meta-Prompt</span>
+                    </div>
+                    <div class="p-4 bg-gray-50">
+                        <p class="text-[11px] text-gray-500 mb-2">Give your quiz file or raw notes to ChatGPT, Gemini, or Claude and paste this prompt:</p>
+                        <div class="bg-white border border-gray-200 rounded p-3 text-[11px] font-mono text-gray-600 leading-relaxed">
+                            I am giving you the raw MCQs/quiz file. I need to generate a JSON payload for a multiple-choice quiz about "[Course Topic]". Please output ONLY a raw JSON array of objects...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JSON Input -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Quiz Payload (JSON)</label>
+                    <textarea rows="4" placeholder="[{&quot;id&quot;: &quot;1&quot;, &quot;text&quot;: &quot;...&quot;, &quot;options&quot;: [...], &quot;correctAnswer&quot;: &quot;...&quot;}]" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition bg-gray-50"></textarea>
+                </div>
+
+                <!-- Passing Marks Slider -->
+                <div class="border border-gray-200 rounded-xl p-5">
+                    <div class="flex justify-between items-center mb-4">
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide">Passing Mark Percentage</label>
+                        <div class="border border-gray-300 rounded px-3 py-1 text-sm font-bold text-primary bg-white shadow-sm" id="sliderValue">70%</div>
+                    </div>
+                    <input type="range" min="0" max="100" value="70" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary" oninput="document.getElementById('sliderValue').innerText = this.value + '%'">
+                    <p class="text-[11px] text-gray-400 mt-2">Participants need to score this percentage or higher to pass the quiz.</p>
+                </div>
+
+                <!-- Toggles -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border border-gray-200 p-4 rounded-xl">
+                        <div>
+                            <p class="text-sm font-bold text-gray-800">Dynamic Shuffling</p>
+                            <p class="text-xs text-gray-500">Randomize question and option order for each participant.</p>
+                        </div>
+                        <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" checked name="toggle" id="toggle1" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                            <label for="toggle1" class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer"></label>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between border border-gray-200 p-4 rounded-xl">
+                        <div>
+                            <p class="text-sm font-bold text-gray-800">Private Assessment</p>
+                            <p class="text-xs text-gray-500">Only users with the direct link can access this quiz. It will not show on browse.</p>
+                        </div>
+                        <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="toggle" id="toggle2" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                            <label for="toggle2" class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="border-t border-gray-100 bg-gray-50 px-6 py-4 flex justify-end rounded-b-2xl">
+                <button class="bg-primary hover:bg-primaryHover text-white font-semibold px-6 py-2.5 rounded-lg transition shadow-md w-full sm:w-auto">
+                    Create Assessment
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal logic
+        const modal = document.getElementById('createModal');
+        const modalContent = document.getElementById('modalContent');
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            // Small delay to allow display:block to apply before animating opacity
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // Matches transition duration
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside of it
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
